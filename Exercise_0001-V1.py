@@ -10,38 +10,56 @@ class product:
         self.code = code
         self.category = category
         self.price = price
-        
-C1 = category("Electronics", "P20", 20)
-C2 = category("Appliances", "D30", 30)
-C3 = category("Sports", "F50", 50)
+
+    
+             
+C1 = category("Electronics", "1", 20)
+C2 = category("Appliances", "2", 30)
+C3 = category("Sports", "3", 50)
 
 P1 = product("Laptop", "P01", "Electronics", 70.000)
-P2 = product("Smart Phone", "P05", "Electronics", 10.000)
-P3 = product("Coffie Maker", "D04", "Appliances", 5.500)
-P4 = product("Digital Camera", "P08", "Electronics", 50.000)
-P5 = product("Television", "P26", "Electronics", 12.000)
-P6 = product("Running Shoes", "F45", "Sports", 1.200)
-P7 = product("Season Bat", "F38", "Sports", 4.000)
-P8 = product("Kitchen Stove", "D28", "Apppliances", 1.500)
-P9 = product("Toaster", "D21", "Appliances", 1.600)
-P10 = product("Cricket Kit", "F39", "Sports", 17.000)
-
-Products = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]
+P2 = product("Smart Phone", "P02", "Electronics", 10.000)
+P3 = product("Coffie Maker", "P03", "Appliances", 5.500)
+P4 = product("Digital Camera", "P04", "Electronics", 50.000)
+P5 = product("Television", "P05", "Electronics", 12.000)
+P6 = product("Running Shoes", "P06", "Sports", 1.200)
+P7 = product("Season Bat", "P07", "Sports", 4.000)
+P8 = product("Kitchen Stove", "P08", "Apppliances", 1.500)
+P9 = product("Toaster", "P09", "Appliances", 1.600)
+P10 = product("Cricket Kit", "P10", "Sports", 17.000)
 
 # Print category info with its no_of_products
 categories = [C1, C2, C3]
 for category in categories:
     print(f"Category: {category.name}\nCode: {category.code}\nNo. of Products: {category.NOP}\n")
     
-    
+Products = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]
+   
 # Sort and print products based on price (High to Low)    
 print("Products sorted by price (High to Low):")
-sorted_products_high_to_low = sorted(Products, key=lambda x: x.price, reverse=True)
+sorted_products_high_to_low = Products
+for i in range(0, len(Products)):
+    for j in range(i+1, len(Products)):
+        if Products[i].price <= Products[j].price:
+            Products[i].price, Products[j].price = Products[j].price, Products[i].price
 for product in sorted_products_high_to_low:
     print(f"{product.name} ({product.category}): {product.price:.3f}")
 
 # Sort and print products based on price (Low to High)
 print("\nProducts sorted by price (Low to High):")
-sorted_products_low_to_high = sorted(Products, key=lambda x: x.price, reverse=False)
+sorted_products_low_to_high = Products
+for i in range(0, len(Products)):
+    for j in range(i+1, len(Products)):
+        if Products[i].price >= Products[j].price:
+            Products[i].price, Products[j].price = Products[j].price, Products[i].price
 for product in sorted_products_low_to_high:
     print(f"{product.name} ({product.category}): {product.price:.3f}")
+
+        
+target_code = input("Enter the code: ")        
+find_products = next((product for product in Products if product.code == target_code), None)
+
+if find_products:
+    print(f"Product found: {find_products.name} (Code: {find_products.code}, Category: {find_products.category}, Price: {find_products.price:.3f})")
+else:
+    print(f"Product with code '{target_code}' not found.")
