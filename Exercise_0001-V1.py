@@ -10,9 +10,7 @@ class product:
         self.code = code
         self.category = category
         self.price = price
-
-    
-             
+            
 C1 = category("Electronics", "1", 20)
 C2 = category("Appliances", "2", 30)
 C3 = category("Sports", "3", 50)
@@ -35,31 +33,38 @@ for category in categories:
     
 Products = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]
    
-# Sort and print products based on price (High to Low)    
+# Sort and print products based on price (High to Low) 
+def sorted_products_high_to_low(Products):   
+    for i in range(0, len(Products)):
+        for j in range(i+1, len(Products)):
+            if Products[i].price <= Products[j].price:
+                Products[i].price, Products[j].price = Products[j].price, Products[i].price
+                
+sorted_products_high_to_low(Products)
 print("Products sorted by price (High to Low):")
-sorted_products_high_to_low = Products
-for i in range(0, len(Products)):
-    for j in range(i+1, len(Products)):
-        if Products[i].price <= Products[j].price:
-            Products[i].price, Products[j].price = Products[j].price, Products[i].price
-for product in sorted_products_high_to_low:
+for product in Products:
     print(f"{product.name} ({product.category}): {product.price:.3f}")
 
 # Sort and print products based on price (Low to High)
+def sorted_products_low_to_high(Products):
+    for i in range(0, len(Products)):
+        for j in range(i+1, len(Products)):
+            if Products[i].price >= Products[j].price:
+                Products[i].price, Products[j].price = Products[j].price, Products[i].price
+
+sorted_products_low_to_high(Products)                
 print("\nProducts sorted by price (Low to High):")
-sorted_products_low_to_high = Products
-for i in range(0, len(Products)):
-    for j in range(i+1, len(Products)):
-        if Products[i].price >= Products[j].price:
-            Products[i].price, Products[j].price = Products[j].price, Products[i].price
-for product in sorted_products_low_to_high:
+for product in Products:
     print(f"{product.name} ({product.category}): {product.price:.3f}")
 
-        
-target_code = input("Enter the code: ")        
-find_products = next((product for product in Products if product.code == target_code), None)
+def find_products(Products, target_code):           
+    find_products = next((product for product in Products if product.code == target_code), None)
+    return find_products
 
-if find_products:
-    print(f"Product found: {find_products.name} (Code: {find_products.code}, Category: {find_products.category}, Price: {find_products.price:.3f})")
+target_code = input("Enter the code: ")
+found_products = find_products(Products, target_code)
+ 
+if found_products:
+    print(f"Product found: {found_products.name} (Code: {found_products.code}, Category: {found_products.category}, Price: {found_products.price:.3f})")
 else:
     print(f"Product with code '{target_code}' not found.")
