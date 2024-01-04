@@ -15,7 +15,7 @@ class Category:
         return self.display_name
     
     def add_product(self, product):
-        self.Products.append(product)
+        self.Products.append(product)  
         
     def Category_info(categories):
         for category in categories:
@@ -48,6 +48,8 @@ class Product(Category):
             for j in range(i+1, len(Products)):
                 if Products[i].price >= Products[j].price:
                     Products[i], Products[j] = Products[j], Products[i]
+    
+    
     
 # Search Products from code
     @staticmethod                
