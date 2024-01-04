@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 class Category:
     def __init__(self, name, code, no_of_products, parent=None, display_name=None):
         self.name = name
@@ -131,3 +132,6 @@ P = Product.Product_info(Products)
 P
 D = Category.generate_display_name(Petrol)
 print(D)
+=======
+
+>>>>>>> 0cf4f974b304055f246d8202ce86deee012e4231
