@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 class Category:
     def __init__(self, name, code, no_of_products, parent=None, display_name=None):
         self.name = name
@@ -16,9 +15,17 @@ class Category:
         return self.display_name
     
     def add_product(self, product):
-        self.Products.append(product)  
+        self.Products.append(product)
+        
+    def sorting_categories(categories):
+        n = len(categories)
+        for i in range(n):
+            for j in range(0, n-i-1):
+                if categories[j].name > categories[j + 1].name:
+                    categories[j], categories[j + 1] = categories[j + 1], categories[j]
         
     def Category_info(categories):
+        Category.sorting_categories(categories)
         for category in categories:
             print(f"Category: {category.name}\nCode: {category.code}\nNo. of Products: {category.NOP}\n")
             for product in category.Products:
@@ -92,7 +99,6 @@ Gas = Category("Gas", "8", 0, Car)
 
 categories = [C1, C2, C3, Vehicle, Car, Petrol, Electric, Gas]
 
-
 P1 = Product("Laptop", "P001", C1, 50)
 P2 = Product("Smart Phone", "P002", C1, 10)
 P3 = Product("Coffie Maker", "P003", C2, 5.5)
@@ -132,6 +138,3 @@ P = Product.Product_info(Products)
 P
 D = Category.generate_display_name(Petrol)
 print(D)
-=======
-
->>>>>>> 0cf4f974b304055f246d8202ce86deee012e4231
