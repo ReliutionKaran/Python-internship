@@ -1,4 +1,3 @@
-
 class Category:
     def __init__(self, name, code, no_of_products, parent=None, display_name=None):
         self.name = name
@@ -45,15 +44,27 @@ class Product(Category):
         self.code = code
         self.category = category.name
         self.price = price
-        self.stock_at_location = {}
+        self.stock_at_locations = {}
         
     def add_stock_at_location(self, location, quantity):
-        if location in self.stock_at_location:
-            self.stock_at_location[location] += quantity
+        if location in self.stock_at_locations:
+            self.stock_at_locations[location] += quantity
         else:
-            self.stock_at_location[location] = quantity
+            self.stock_at_locations[location] = quantity
+            
+    def update_stock_for_multiple_products(products, location, stock_quantity):
+        for product in products:
+            product.add_stock_at_location(location, stock_quantity)
+            
+        for product in [P26, P27, P28, P29, P30]:
+            print(f"{product.name} Stock at {C1.name}: {product.stock_at_locations.get(C1, 0)}")
+            print(f"{product.name} Stock at {C2.name}: {product.stock_at_locations.get(C2, 0)}")
+            print(f"{product.name} Stock at {C3.name}: {product.stock_at_locations.get(C3, 0)}")
         
-                
+        #print(f"\nStock information for {P1.name} (Code: {P1.code}):")
+        #for location, stock in P1.stock_at_locations.items():
+        #    print(f"At {location.name}: {stock} units")
+                       
 # Sort and print products based on price (High to Low) 
     @staticmethod
     def sorted_products_high_to_low(Products):   
@@ -69,9 +80,7 @@ class Product(Category):
             for j in range(i+1, len(Products)):
                 if Products[i].price >= Products[j].price:
                     Products[i], Products[j] = Products[j], Products[i]
-    
-    
-    
+       
 # Search Products from code
     @staticmethod                
     def find_products(Products, target_code):           
@@ -115,7 +124,8 @@ class Movement:
     @staticmethod
     def movements_by_product(product):
         return [movement for movement in Movement.movements if movement.product == product]
-        
+    
+    #def move_product(movements):
         
 C1 = Category("Electronics", "1", 0)
 C2 = Category("Appliances", "2", 0)
@@ -173,12 +183,20 @@ L2 = Location("Stock Hall B", "B0002")
 L3 = Location("Stock Hall C", "C0003")
 L4 = Location("Stock Hall D", "D0004")
 
-locations = [L1, L2, L3, L4]
+locations = (L1, L2, L3, L4)
 
-C = Category.Category_info(categories)
-print(C)
-P = Product.Product_info(Products)
-P
-D = Category.generate_display_name(Petrol)
-print(D)
-L1.add_stock_at_location()
+movement1 = Movement(L1, L2, P1, 100)
+movement2 = Movement(L2, L3, P2, 500)
+movement3 = Movement(L3, L4, P3, 300)
+
+movements = [movement1, movement2, movement3]
+
+a = Category.Category_info(categories)
+print(a)
+b = Product.Product_info(Products)
+b
+c = Category.generate_display_name(Petrol)
+print(c)
+
+A = Product.update_stock_for_multiple_products(Products, C1, 20)
+print(A)
