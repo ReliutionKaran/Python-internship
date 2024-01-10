@@ -1,6 +1,25 @@
 import re
 from datetime import datetime
 
+class Category:
+    def __init__(self, name, code, no_of_products):
+        self.name = name
+        self.code = code
+        self.NOP = no_of_products
+        
+    def Category_info(categories):
+        for category in categories:
+            print(f"Category: {category.name}\nCode: {category.code}\nNo. of Products: {category.NOP}\n")
+   
+   
+class Product(Category):
+    def __init__(self, name, code, category, price):
+        self.name = name
+        self.code = code
+        self.category = category.name
+        self.price = price
+        category.NOP += 1
+        
 class Customer:
     def __init__(self, name, email, phone, street, city, state, country, type=None, company=None):
         self.name = name
@@ -18,8 +37,8 @@ class Customer:
             raise ValueError(f"Invalid Coustomer type. Valid types are: {valid_types}")
         
         if company is not None:
-            if isinstance(company, dict):
-                self.company = Customer(**company)
+            if isinstance(Company_info, dict):
+                self.company = Customer(**Company_info)
             else:
                 print("Invalid company information. Expected a dictionary.")
         else:
@@ -44,7 +63,6 @@ class Customer:
         if self._contains_numbers(country):
             print("Country can't contain numbers...")
             
-        
     def _valid_email(self, email):
         email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
         return bool(re.match(email_regex, email))
@@ -58,6 +76,7 @@ class Customer:
     
     def __repr__(self):
         return f"Name:({self.name})\nEmail:({self.email})\nPhone no.:({self.phone})\nAddress:({self.street})\nCity:({self.city})\nState:({self.state})\nCountry:({self.country})\nType:({self.type})\nCompany's Info:({self.company})"
+    print("\n")
 
 class Order:
     def __init__(self, number, date, company, billing, shipping, total_amount, order_lines):
@@ -65,9 +84,10 @@ class Order:
         self.company = company
         self.billing = billing
         self.shipping = shipping
-        self.TM = total_amount
+        self.calculate_total_amount(total_amount)
+        self.total_amount = total_amount
         self.OL = order_lines
-        self._validate_date(date)
+        self.validate_date(date)
         self.date = date
         
         # Validate and set the 'company' attribute
@@ -82,19 +102,98 @@ class Order:
         if not isinstance(shipping, Customer):
             raise ValueError("Invalid shipping information. Expected an instance of Customer")
         
-        # Calculate the 'total_amount' based on order lines
-        self.total_amount = sum(line["quantity"] * line["unit_price"] for line in order_lines)
+    def calculate_total_amount(self, total_amount):
+        total_amount = 0
+        for order in order_lines:
+            total_amount += order.quantity * order.price
+        return total_amount    
         
-    def _validate_date(self, date_str):
+    def sl(SL):    
+        SL = order_lines.append(OL)
+        
+    def validate_date(self, date_str):
         today = datetime.now().date()
         order_date = datetime.strptime(date_str, "%Y-%m-%d").date()
 
         if order_date < today:
             raise ValueError("Invalid order date. Must be today or in the future.")
         
+    # Sorting orders based on date
+    @staticmethod
+    def sort_by_date(Orders):   
+        for i in range(0, len(Orders)):
+            for j in range(i+1, len(Orders)):
+                if Orders[i].date <= Orders[j].date:
+                    Orders[i], Orders[j] = Orders[j], Orders[i]
+                    
+    @staticmethod                
+    def find_orders(Orders, target_number):           
+        find_orders = next((order for order in Orders if order.number == target_number))
+        return find_orders
+        
     def __repr__(self):
-        return f"Order Number: {self.number}\nDate: {self.date}\nCompany: {self.company}\nBilling: {self.billing}\nShipping: {self.shipping}\nTotal Amount: {self.total_amount}\nOrder Lines: {self.OL}"
-       
+        return f"Order Number: {self.number}\nDate: {self.date}\nCompany: {self.company}\nBilling: {self.billing}\nShipping: {self.shipping}\nOrder Lines: {self.OL}\nTotal Amount: {self.total_amount}"
+    print("\n")
+    
+    def order_info(Orders, month=None):
+        for order in Orders:
+            order_month = datetime.strptime(order.date, "%Y-%m-%d").month
+            if month is None or order_month == month:
+                print(f"Order Number: {order.number}\nDate: {order.date}\nCompany: {order.company}")
+        print("\n")
+                
+        Order.sort_by_date(Orders)
+        for order in Orders:
+            print(f"Order Number: {order.number}\nDate: {order.date}")
+        print("\n")    
+            
+            
+        #Searching of Order
+        target_number = input("Enter the Order Number: ")
+        found_orders = Order.find_orders(Orders, target_number)
+ 
+        if found_orders:
+            print(f"Product found: {found_orders.number} (Order Date: {found_orders.date})")
+        else:
+            print(f"Product with code '{target_number}' not found.")
+        print("\n")
+        
+class OrderLine:
+    def __init__(self, order, product, quantity, price):
+        self.order = order
+        self.product = product
+        self.quantity = quantity
+        self.price = price
+        self.subtotal = self.calculate_subtotal()
+        
+        if not isinstance(order, Order):
+            raise ValueError("Invalid company information. Expected an instance of Order.")
+        
+    def calculate_subtotal(self):
+        return self.quantity * self.price
+        
+    def __repr__(self):
+        return f"\nOrder:({self.order}), Product:({self.product}), Quantity:({self.quantity}), Price:({self.price}), Subtotal:({self.subtotal})"
+    print("\n")
+
+        
+C1 = Category("Electronics", "1", 0)
+C2 = Category("Appliances", "2", 0)
+C3 = Category("Sports", "3", 0)
+categories = [C1, C2, C3]
+
+P1 = Product("Laptop", "P01", C1, 70.0)
+P2 = Product("Smart Phone", "P02", C1, 10.0)
+P3 = Product("Coffie Maker", "P03", C2, 5.5)
+P4 = Product("Digital Camera", "P04", C1, 50.0)
+P5 = Product("Television", "P05", C1, 12.0)
+P6 = Product("Running Shoes", "P06", C3, 1.2)
+P7 = Product("Season Bat", "P07", C3, 4.0)
+P8 = Product("Kitchen Stove", "P08", C2, 1.5)
+P9 = Product("Toaster", "P09", C2, 1.6)
+P10 = Product("Cricket Kit", "P10", C3, 17.0)
+Products = [P1, P2, P3, P4, P5, P6, P7, P8, P9, P10]
+
 Company_info = {"name":"Aspect Technologies",
                 "email":"aspect.6369@gmial.com",
                 "phone":"123-456-7893",
@@ -121,20 +220,32 @@ CO1 = Customer("Gopal Ajani",
                "billing", 
                Company_info)
 
-order_lines = [{"product": "Samsung Galaxy S22", "quantity": 2, "unit_price": 10000},
-               {"product": "One Plus Ultra", "quantity": 1, "unit_price": 20000}]
-
 company = Customer(**Company_info)
 billing = Customer(**Billing_info)
 shipping = Customer(**Company_info)
 
-order1 = Order(
-    number="12345",
-    date="2024-01-09",
-    company=company,
-    billing=billing,
-    shipping=shipping,
-    total_amount=50,
-    order_lines=order_lines)
+order_lines = []
 
-print(order1)
+order1 = Order("22054", "2024-03-17", company, billing, shipping, 50, order_lines)
+order2 = Order("23089", "2024-01-12", company, billing, shipping, 60, order_lines)
+order3 = Order("24078", "2024-05-11", company, billing, shipping, 70, order_lines)
+order4 = Order("24034", "2024-06-12", company, billing, shipping, 80, order_lines)
+
+Orders = [order1, order2, order3, order4] 
+
+Orderline1 = OrderLine(order1, "Apple", 50, P1.price)
+Orderline2 = OrderLine(order1, P2, 100, P2.price)
+Orderline3 = OrderLine(order1, P3, 20, P3.price)
+Orderline4 = OrderLine(order1, P4, 30, P4.price)
+
+Orderline1 = OrderLine(order2, P1, 50, P1.price)
+Orderline2 = OrderLine(order2, P2, 100, P2.price)
+Orderline3 = OrderLine(order2, P3, 20, P3.price)
+
+
+OL = [Orderline1, Orderline2, Orderline3, Orderline4]
+Order.order_lines = [OL]
+
+current_month = datetime.now().month
+print(Order.order_info(Orders, month=current_month))
+print(OL)
