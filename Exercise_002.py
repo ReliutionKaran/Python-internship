@@ -64,12 +64,12 @@ class Customer:
             print("Country can't contain numbers...")
             
     def _valid_email(self, email):
-        email_regex = re.compile(r"[^@]+@[^@]+\.[^@]+")
-        return bool(re.match(email_regex, email))
+        email_reg = re.compile(r"[^@]+@[^@]+\.[^@]+")
+        return bool(re.match(email_reg, email))
 
     def _valid_phone(self, phone):
-        phone_regex = re.compile(r"^\d{3}-\d{3}-\d{4}$")
-        return bool(re.match(phone_regex, phone))
+        phone_reg = re.compile(r"^\d{3}-\d{3}-\d{4}$")
+        return bool(re.match(phone_reg, phone))
 
     def _contains_numbers(self, value):
         return any(char.isdigit() for char in value)
@@ -79,14 +79,12 @@ class Customer:
     print("\n")
 
 class Order:
-    def __init__(self, number, date, company, billing, shipping, total_amount, order_lines):
+    def __init__(self, number, date, company, billing, shipping, order_lines):
         self.number = number
         self.company = company
         self.billing = billing
         self.shipping = shipping
-        self.calculate_total_amount(total_amount)
-        self.total_amount = total_amount
-        self.OL = order_lines
+        self.order_lines = order_lines
         self.validate_date(date)
         self.date = date
         
@@ -102,14 +100,11 @@ class Order:
         if not isinstance(shipping, Customer):
             raise ValueError("Invalid shipping information. Expected an instance of Customer")
         
-    def calculate_total_amount(self, total_amount):
+    def calculate_total_amount(self):
         total_amount = 0
-        for order in order_lines:
-            total_amount += order.quantity * order.price
-        return total_amount    
-        
-    def sl(SL):    
-        SL = order_lines.append(OL)
+        for order in self.order_lines:
+            total_amount += order.calculate_subtotal()
+        print("Total Amount :", total_amount)    
         
     def validate_date(self, date_str):
         today = datetime.now().date()
@@ -132,7 +127,7 @@ class Order:
         return find_orders
         
     def __repr__(self):
-        return f"Order Number: {self.number}\nDate: {self.date}\nCompany: {self.company}\nBilling: {self.billing}\nShipping: {self.shipping}\nOrder Lines: {self.OL}\nTotal Amount: {self.total_amount}"
+        return f"Order Number: {self.number}\nDate: {self.date}\nCompany: {self.company}\nBilling: {self.billing}\nShipping: {self.shipping}\nOrder Lines: {self.order_lines}"
     print("\n")
     
     def order_info(Orders, month=None):
@@ -144,7 +139,7 @@ class Order:
                 
         Order.sort_by_date(Orders)
         for order in Orders:
-            print(f"Order Number: {order.number}\nDate: {order.date}")
+            print(f"\nDate: {order.date}\nOrder Number: {order.number}")
         print("\n")    
             
             
@@ -224,28 +219,21 @@ company = Customer(**Company_info)
 billing = Customer(**Billing_info)
 shipping = Customer(**Company_info)
 
-order_lines = []
-
-order1 = Order("22054", "2024-03-17", company, billing, shipping, 50, order_lines)
-order2 = Order("23089", "2024-01-12", company, billing, shipping, 60, order_lines)
-order3 = Order("24078", "2024-05-11", company, billing, shipping, 70, order_lines)
-order4 = Order("24034", "2024-06-12", company, billing, shipping, 80, order_lines)
+order1 = Order("22054", "2024-03-17", company, billing, shipping, order_lines = [])
+order2 = Order("23089", "2024-01-12", company, billing, shipping, order_lines = [])
+order3 = Order("24078", "2024-05-11", company, billing, shipping, order_lines = [])
+order4 = Order("24034", "2024-06-12", company, billing, shipping, order_lines = [])
 
 Orders = [order1, order2, order3, order4] 
 
-Orderline1 = OrderLine(order1, "Apple", 50, P1.price)
-Orderline2 = OrderLine(order1, P2, 100, P2.price)
-Orderline3 = OrderLine(order1, P3, 20, P3.price)
-Orderline4 = OrderLine(order1, P4, 30, P4.price)
+Orderline1 = OrderLine(order1, P1.name, 50, P1.price)
+Orderline2 = OrderLine(order1, P2.name, 100, P2.price)
+Orderline3 = OrderLine(order1, P3.name, 20, P3.price)
+Orderline4 = OrderLine(order1, P4.name, 30, P4.price)
 
-Orderline1 = OrderLine(order2, P1, 50, P1.price)
-Orderline2 = OrderLine(order2, P2, 100, P2.price)
-Orderline3 = OrderLine(order2, P3, 20, P3.price)
-
-
-OL = [Orderline1, Orderline2, Orderline3, Orderline4]
-Order.order_lines = [OL]
+order1.order_lines = [Orderline2, Orderline4]
 
 current_month = datetime.now().month
 print(Order.order_info(Orders, month=current_month))
-print(OL)
+print(order1)
+order1.calculate_total_amount()
