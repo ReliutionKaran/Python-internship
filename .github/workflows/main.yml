@@ -31,6 +31,6 @@ jobs:
     - name: Deploy with AWS CLI
       run: |
         aws s3 ls
-        apt-get install plocate
+        sudo apt install plocate
         locate opt
         echo "success"
