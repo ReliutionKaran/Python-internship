@@ -33,4 +33,5 @@ jobs:
         aws s3 ls
         sudo su
         cd /opt
+        ls
         echo "success"
