@@ -31,4 +31,8 @@ jobs:
     - name: Deploy with AWS CLI
       run: |
         aws s3 ls
+        cd /opt/metabase
+        ls
+        pwd
+        sudo systemctl status metabase.service
         echo "success"
