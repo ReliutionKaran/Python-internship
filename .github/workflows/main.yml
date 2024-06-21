@@ -31,5 +31,6 @@ jobs:
     - name: Deploy with AWS CLI
       run: |
         aws s3 ls
+        cd
         pwd
         echo "success"
