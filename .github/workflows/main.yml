@@ -31,7 +31,7 @@ jobs:
     - name: Deploy with AWS CLI
       run: |
         aws s3 ls
-        cd /temp_test
+        cd temp_test
         ls
         pwd
         echo "success"
