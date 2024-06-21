@@ -33,5 +33,5 @@ jobs:
         aws s3 ls
         cd /
         cd opt
-        ls
+        pwd
         echo "success"
