@@ -31,5 +31,7 @@ jobs:
     - name: Deploy with AWS CLI
       run: |
         sudo -i
-        cd /opt
+        cd /opt/
+        pwd
+        ls
         echo "success"
