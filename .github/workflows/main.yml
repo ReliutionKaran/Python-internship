@@ -17,6 +17,10 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
+    - name: Print AWS Identity
+      run: |
+          aws sts get-caller-identity
+
     - name: Configure AWS credentials using OIDC
       id: configure-aws-creds
       uses: aws-actions/configure-aws-credentials@v2
