@@ -1,25 +1,30 @@
-name: Pre-commit Checks
+name: Deploy to AWS
 
 on:
   push:
     branches:
-      - '*'
+      - main
+
+permissions:
+  id-token: write
+  contents: read
 
 jobs:
-  pre-commit:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.x'
+    - name: Configure AWS credentials using OIDC
+      id: configure-aws-creds
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::992382606378:role/ODBI_TEST
+        aws-region: us-east-1
 
-      - name: Install pre-commit
-        run: pip install pre-commit
-
-      - name: Run pre-commit checks
-        run: pre-commit run --all-files
+    - name: Deploy with AWS CLI
+      run: |
+        aws s3 ls
+        echo "success"
