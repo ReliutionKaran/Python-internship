@@ -17,16 +17,16 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v3
 
-    - name: Print AWS Identity
-      run: |
-          aws sts get-caller-identity
-
     - name: Configure AWS credentials using OIDC
       id: configure-aws-creds
       uses: aws-actions/configure-aws-credentials@v2
       with:
         role-to-assume: arn:aws:iam::992382606378:role/ODBI_TEST
         aws-region: us-east-1
+
+    - name: Print AWS Identity
+      run: |
+          aws sts get-caller-identity
 
     - name: Deploy with AWS CLI
       run: |
