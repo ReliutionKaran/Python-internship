@@ -30,7 +30,5 @@ jobs:
 
     - name: Deploy with AWS CLI
       run: |
-        sudo su
-        cd /opt/metabase
-        ls
+        sudo ls /opt
         echo "success"
