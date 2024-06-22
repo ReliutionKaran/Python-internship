@@ -26,7 +26,7 @@ jobs:
 
     - name: Print AWS Identity
       run: |
-          aws sts get-caller-identity
+        aws sts get-caller-identity
 
     - name: Deploy with AWS CLI
       run: |
